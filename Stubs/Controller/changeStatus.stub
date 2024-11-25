@@ -1,16 +1,7 @@
 
-    /**
-     * 更改数据状态
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[PutMapping("changeStatus"), Permission("{UPDATE_PERMISSION}"), OperationLog]
-    public function changeStatus(): ResponseInterface
-    {
-        return $this->service->changeStatus(
-            (int) $this->request->input('{PK}'),
-            (string) $this->request->input('{STATUS_VALUE}'),
-            (string) $this->request->input('{STATUS_FIELD}', 'status')
-        ) ? $this->success() : $this->error();
+    #[OA\Put(path: '{CONTROLLER_ROUTE}/disabled/{id}/{disabled}', summary: '{MENU_NAME}:更改禁用状态', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{UPDATE_PERMISSION}"), ActionLog]
+    #[RequestPath('*id/ID/i'), RequestPath('*disabled/操作类型/i/disabled'), ResponseBody]
+    public function changeDisabled(int $id, int $disabled) {
+        return $this->service->changeDisabled($id, $disabled) ? $this->success() : $this->error();
     }

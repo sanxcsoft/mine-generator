@@ -26,7 +26,13 @@ interface GeneratorTablesContract
     /**
      * 获取所属模块.
      */
-    public function getModuleName(): string;
+	public function getModuleName(): string;
+	
+	/**
+	 * 获取所属模块名称
+	 * @return string
+	 */
+	public function getModuleMark(): string;
 
     /**
      * 表名.

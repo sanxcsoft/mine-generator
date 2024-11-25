@@ -1,12 +1,7 @@
 
-    /**
-     * 单个或批量删除数据到回收站
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[DeleteMapping("delete"), Permission("{DELETE_PERMISSION}"), OperationLog]
-    public function delete(): ResponseInterface
-    {
-        return $this->service->delete((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
+    #[OA\Delete(path: '{CONTROLLER_ROUTE}/{id}', summary: '{MENU_NAME}:删除', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{DELETE_PERMISSION}"), ActionLog]
+    #[RequestPath('*id/ID'), ResponseBody]
+    public function delete(mixed $id) {
+        return $this->service->delete($id) ? $this->success() : $this->error();
     }

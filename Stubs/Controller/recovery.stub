@@ -5,8 +5,9 @@
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("recovery"), Permission("{RECOVERY_PERMISSION}"), OperationLog]
-    public function recovery(): ResponseInterface
-    {
-        return $this->service->recovery((array) $this->request->input('ids', [])) ? $this->success() : $this->error();
+    #[OA\Put(path: '{CONTROLLER_ROUTE}/recovery/{id}', summary: '{MENU_NAME}:恢复', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{RECOVERY_PERMISSION}")]
+    #[RequestPath('*id/ID'), ResponseBody]
+    public function recovery(mixed $id) {
+        return $this->service->recovery($id) ? $this->success() : $this->error();
     }

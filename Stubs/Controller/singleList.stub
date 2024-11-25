@@ -1,12 +1,8 @@
 
-    /**
-     * 列表
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[GetMapping("index"), Permission("{INDEX_PERMISSION}")]
-    public function index(): ResponseInterface
-    {
-        return $this->success($this->service->getPageList($this->request->all()));
+    #[OA\Get(path: '{CONTROLLER_ROUTE}', summary: '{MENU_NAME}:列表', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{INDEX_PERMISSION}")]
+    #[SearchParams({SEARCH_PARAMS})]
+    #[ResponseBody(Model::class, scene: 'page')]
+    public function index(ParamsRequest $request) {
+        return $this->success($this->service->getAuto($request->search()));
     }

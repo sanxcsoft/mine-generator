@@ -5,12 +5,9 @@
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[PutMapping("numberOperation"), Permission("{UPDATE_PERMISSION}"), OperationLog]
-    public function numberOperation(): ResponseInterface
-    {
-        return $this->service->numberOperation(
-            (int) $this->request->input('{PK}'),
-            (string) $this->request->input('{NUMBER_FIELD}'),
-            (int) $this->request->input('{NUMBER_VALUE}', 1),
-        ) ? $this->success() : $this->error();
+    #[OA\Put(path: '{CONTROLLER_ROUTE}/sort/{id}/{sort}', summary: '{MENU_NAME}:更改排序', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{UPDATE_PERMISSION}"), ActionLog]
+    #[RequestPath('*id/ID/i'), RequestPath('*sort/排序值/i'), ResponseBody]
+    public function numberOperation(int $id, int $sort) {
+        return $this->service->changeSort($id, $sort) ? $this->success() : $this->error();
     }

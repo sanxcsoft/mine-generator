@@ -24,14 +24,15 @@ declare(strict_types=1);
 
 namespace Mine\Generator;
 
+use Core\Exception\ServiceException;
+use Core\Utils\ComUtil;
 use Hyperf\Collection\Collection;
 use Hyperf\Support\Filesystem\Filesystem;
-use Mine\Exception\NormalStatusException;
 use Mine\Generator\Contracts\GeneratorTablesContract;
 use Mine\Generator\Enums\GenerateTypeEnum;
-use Mine\Helper\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Mine\Generator\Traits\SwaggerGeneratorTraits;
 
 use function Hyperf\Support\env;
 use function Hyperf\Support\make;
@@ -40,8 +41,10 @@ use function Hyperf\Support\make;
  * 控制器生成
  * Class ControllerGenerator.
  */
-class ControllerGenerator extends MineGenerator implements CodeGenerator
-{
+class ControllerGenerator extends MineGenerator implements CodeGenerator {
+	
+	use SwaggerGeneratorTraits;
+	
     protected GeneratorTablesContract $tablesContract;
 
     protected string $codeContent;
@@ -55,12 +58,11 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function setGenInfo(GeneratorTablesContract $tablesContract): ControllerGenerator
-    {
+    public function setGenInfo(GeneratorTablesContract $tablesContract): ControllerGenerator {
         $this->tablesContract = $tablesContract;
         $this->filesystem = make(Filesystem::class);
         if (empty($tablesContract->getModuleName()) || empty($tablesContract->getMenuName())) {
-            throw new NormalStatusException(t('setting.gen_code_edit'));
+            throw new ServiceException(trans('setting.gen_code_edit'));
         }
         $this->columns = $tablesContract->getColumns();
         $this->setNamespace($this->tablesContract->getNamespace());
@@ -72,14 +74,14 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $module = Str::title($this->tablesContract->getModuleName()[0]) . mb_substr($this->tablesContract->getModuleName(), 1);
+        $module = ComUtil::title($this->tablesContract->getModuleName()[0]) . mb_substr($this->tablesContract->getModuleName(), 1);
         if ($this->tablesContract->getGenerateType() === GenerateTypeEnum::ZIP) {
             $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Controller/";
         } else {
             $path = BASE_PATH . "/app/{$module}/Controller/";
         }
         if (! empty($this->tablesContract->getPackageName())) {
-            $path .= Str::title($this->tablesContract->getPackageName()) . '/';
+            $path .= ComUtil::title($this->tablesContract->getPackageName()) . '/';
         }
         $this->filesystem->exists($path) || $this->filesystem->makeDirectory($path, 0755, true, true);
         $this->filesystem->put($path . "{$this->getClassName()}.php", $this->replace()->getCodeContent());
@@ -106,16 +108,15 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
      */
     public function getBusinessName(): string
     {
-        return Str::studly(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
+        return ComUtil::studly(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
     }
 
     /**
      * 获取短业务名称.
      */
-    public function getShortBusinessName(): string
-    {
-        return Str::camel(str_replace(
-            Str::lower($this->tablesContract->getModuleName()),
+    public function getShortBusinessName(): string {
+        return ComUtil::camel(str_replace(
+			ComUtil::lower($this->tablesContract->getModuleName()),
             '',
             str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName())
         ));
@@ -173,31 +174,37 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
     protected function getPlaceHolderContent(): array
     {
         return [
-            '{NAMESPACE}',
-            '{COMMENT}',
-            '{USE}',
-            '{CLASS_NAME}',
-            '{SERVICE}',
-            '{CONTROLLER_ROUTE}',
-            '{FUNCTIONS}',
-            '{REQUEST}',
-            '{INDEX_PERMISSION}',
-            '{RECYCLE_PERMISSION}',
-            '{SAVE_PERMISSION}',
-            '{READ_PERMISSION}',
-            '{UPDATE_PERMISSION}',
-            '{DELETE_PERMISSION}',
-            '{REAL_DELETE_PERMISSION}',
-            '{RECOVERY_PERMISSION}',
-            '{IMPORT_PERMISSION}',
-            '{EXPORT_PERMISSION}',
-            '{DTO_CLASS}',
-            '{PK}',
+            '{NAMESPACE}', //命名空间
+            '{COMMENT}', //类说明
+            '{USE}', //引用
+            '{CLASS_NAME}', //类名
+            '{SERVICE}', //引用业务服务
+            '{CONTROLLER_ROUTE}', //controller前置路由
+            '{FUNCTIONS}', //方法集合
+            '{REQUEST}', //
+            '{INDEX_PERMISSION}', //首页权限
+            '{RECYCLE_PERMISSION}', //回收站权限
+            '{SAVE_PERMISSION}', //新增权限
+            '{READ_PERMISSION}', //读取权限
+            '{UPDATE_PERMISSION}', //修改权限
+            '{DELETE_PERMISSION}', //删除权限
+            '{REAL_DELETE_PERMISSION}', //真删权限
+            '{RECOVERY_PERMISSION}', //恢复权限
+            '{IMPORT_PERMISSION}', //导入权限
+            '{EXPORT_PERMISSION}', //导出权限
+            '{DTO_CLASS}', //dto类
+            '{PK}', //主键
             '{STATUS_VALUE}',
             '{STATUS_FIELD}',
             '{NUMBER_FIELD}',
             '{NUMBER_TYPE}',
             '{NUMBER_VALUE}',
+			'{MODEL_CLASS}', //模型类
+			'{CONTROLLER_TAG}', //模块分类
+			'{MENU_NAME}', //菜单说明
+			'{INSERT_RULES}', //保存验证规则
+			'{UPDATE_RULES}', //保存验证规则
+			'{SEARCH_PARAMS}', //搜索规则
         ];
     }
 
@@ -215,9 +222,9 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             $this->getControllerRoute(),
             $this->getFunctions(),
             $this->getRequestName(),
-            sprintf('%s, %s', Str::lower($this->tablesContract->getModuleName()) . ':' . $this->getShortBusinessName(), $this->getMethodRoute('index')),
+			ComUtil::lower($this->tablesContract->getModuleName()) . ':' . $this->getShortBusinessName(),
             $this->getMethodRoute('recycle'),
-            $this->getMethodRoute('save'),
+            $this->getMethodRoute('insert'),
             $this->getMethodRoute('read'),
             $this->getMethodRoute('update'),
             $this->getMethodRoute('delete'),
@@ -232,6 +239,12 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
             $this->getNumberField(),
             $this->getNumberType(),
             $this->getNumberValue(),
+			$this->getModelPath(),
+			$this->getControllerTag(),
+			$this->tablesContract->getMenuName(),
+			$this->getSaveRules(true),
+			$this->getSaveRules(false),
+			$this->getSearchParams()
         ];
     }
 
@@ -242,7 +255,7 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
     {
         $namespace = $this->getNamespace() . '\Controller';
         if (! empty($this->tablesContract->getPackageName())) {
-            return $namespace . '\\' . Str::title($this->tablesContract->getPackageName());
+            return $namespace . '\\' . ComUtil::title($this->tablesContract->getPackageName());
         }
         return $namespace;
     }
@@ -262,7 +275,6 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator
     {
         return <<<UseNamespace
 use {$this->getNamespace()}\\Service\\{$this->getBusinessName()}Service;
-use {$this->getNamespace()}\\Request\\{$this->getBusinessName()}Request;
 UseNamespace;
     }
 
@@ -289,10 +301,20 @@ UseNamespace;
     {
         return sprintf(
             '%s/%s',
-            Str::lower($this->tablesContract->getModuleName()),
+            ComUtil::lower($this->tablesContract->getModuleName()),
             $this->getShortBusinessName()
         );
     }
+	
+	
+	/**
+	 * 获取模块标签
+	 * @return string
+	 */
+	protected function getControllerTag(): string{
+		return $this->tablesContract->getModuleMark() . '/' . $this->tablesContract->getMenuName();
+	}
+	
 
     protected function getFunctions(): string
     {
@@ -320,7 +342,7 @@ UseNamespace;
     {
         return sprintf(
             '%s:%s:%s',
-            Str::lower($this->tablesContract->getModuleName()),
+			ComUtil::lower($this->tablesContract->getModuleName()),
             $this->getShortBusinessName(),
             $route
         );
@@ -334,7 +356,96 @@ UseNamespace;
             $this->getBusinessName() . 'Dto'
         );
     }
-
+	
+	
+	/**
+	 * 获取搜索规则
+	 * @return string search: [], operateField: []
+	 */
+	protected function getSearchParams(): string{
+		$columns = $this->tablesContract->getColumns();
+		$allows = ['neq' => '!=', 'gt' => '@>', 'gte' => '@>=', 'lt' => '@<', 'lte' => '@<=', 'like' => 'like', 'between' => 'between', 'in' => 'in', 'notin' => 'NOT IN'];
+		$filterResult = []; //筛选结果集
+		$keywordResult = []; //关键词搜索结果集
+		
+		foreach ($columns as $column) {
+			if($column['is_keyword'] == 2){
+				$keywordResult[] = $column['column_name'];
+			}
+			
+			if($column['is_query'] == 2){
+				if(!isset($allows[$column['query_type']]))continue;
+				$operate = $allows[$column['query_type']];
+				if(!isset($filterResult[$operate]))$filterResult[$operate] = [];
+				
+				$filterResult[$operate][] = $column['column_name'];
+			}
+		}
+		
+		//组成操作符字符串
+		$operateContent = $this->outputPhpArray($filterResult, "\t");
+		
+		$content = 'search: '. $this->outputPhpArray($keywordResult) .', operateField: ' . $operateContent;
+		
+		return $content;
+	}
+	
+	/**
+	 * 获取验证规则
+	 * @return string
+	 */
+	protected function getSaveRules($isadd = true): string{
+		$result = [];
+		$phpContent = '';
+		$createCode = '';
+		$updateCode = '';
+		
+		foreach ($this->columns as $column) {
+			if(in_array($column['column_name'], ['id', 'created_by', 'updated_by', 'deleted_by', 'created_at', 'updated_at', 'deleted_at'])) {
+				continue;
+			}
+			
+			if(($isadd && $column['is_add'] == 1) || (!$isadd && $column['is_edit'] == 1))continue;
+			
+			//验证规则
+			$rules = [];
+			$oldField = $column['column_name'];
+			if($column['is_required'] == 2)$field = '*' . $oldField; //必填
+			
+			//类型
+			$typeRules = ['int' => 'i', 'varchar' => 's', 'tinyint' => 'i', 'char' => 's'];
+			$type = $typeRules[$column['column_type']] ?? 's';
+			
+			//时间
+			if(str_ends_with($oldField, '_time')){
+				$rules[] = 'date';
+				$type = 's';
+			}else if($oldField == 'disabled'){
+				$rules[] = 'disabled';
+			}
+			
+			$item = $field . '/' . $column['column_comment'] . '/' . $type;
+			if(!empty($rules))$item .= '/' . implode('|', $rules);
+			
+			$result[] = $item;
+		}
+		
+		return $this->outputPhpArray($result);
+	}
+	
+	
+	/**
+	 * 获取模型类路径
+	 * @return string
+	 */
+	protected function getModelPath(): string {
+		return sprintf(
+			'Common\Model\%s\%s',
+			$this->tablesContract->getModuleName(),
+			$this->getBusinessName() . 'Model'
+		);
+	}
+	
     /**
      * 生成代码表主键.
      */
@@ -380,4 +491,32 @@ UseNamespace;
     {
         return $this->getBusinessName() . 'Request';
     }
+	
+	//数组输出php格式数组字符串
+	protected function outputPhpArray(array $array, string $attchTab = ""): string{
+		if(empty($array))return '[]';
+		if(isset($array[0]))return json_encode($array, JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+		
+		$attchTab .= "\t";
+		$content = '[' . PHP_EOL;
+		foreach ($array as $key => $item) {
+			$content .= $attchTab;
+			
+			if(!is_int($key))$content .= '"' . $key . '" => ';
+			
+			if(is_array($item)){
+				$content .= $this->outputPhpArray($item, $attchTab);
+			}else if(is_string($item)){
+				$content .= '"'. $item .'"';
+			}else{
+				$content .= $item;
+			}
+			
+			$content .= "," . PHP_EOL;
+		}
+		$content .= "\t]";
+		
+		return $content;
+	}
+	
 }

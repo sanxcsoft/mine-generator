@@ -24,12 +24,12 @@ declare(strict_types=1);
 
 namespace Mine\Generator;
 
+use Core\Exception\ServiceException;
+use Core\Utils\ComUtil;
 use Hyperf\Database\Model\Builder;
 use Hyperf\DbConnection\Db;
 use Hyperf\Support\Filesystem\Filesystem;
-use Mine\Exception\NormalStatusException;
 use Mine\Generator\Contracts\GeneratorTablesContract;
-use Mine\Helper\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -63,7 +63,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
         $this->filesystem = make(Filesystem::class);
         if (empty($tablesContract->getModuleName())
             || empty($tablesContract->getMenuName())) {
-            throw new NormalStatusException(t('setting.gen_code_edit'));
+            throw new ServiceException(trans('setting.gen_code_edit'));
         }
         return $this->placeholderReplace();
     }
@@ -98,8 +98,8 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     public function getShortBusinessName(): string
     {
-        return Str::camel(str_replace(
-            Str::lower($this->tablesContract->getModuleName()),
+        return ComUtil::camel(str_replace(
+			ComUtil::lower($this->tablesContract->getModuleName()),
             '',
             str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->table_name)
         ));
@@ -222,7 +222,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getTableName(): string
     {
-        return env('DB_PREFIX', '') . 'system_menu';
+        return env('DB_PREFIX', '') . 'menu';
     }
 
     /**
@@ -245,7 +245,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getCode(): string
     {
-        return Str::lower($this->tablesContract->getModuleName()) . ':' . $this->getShortBusinessName();
+        return ComUtil::lower($this->tablesContract->getModuleName()) . ':' . $this->getShortBusinessName();
     }
 
     /**
@@ -253,15 +253,14 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getRoute(): string
     {
-        return Str::lower($this->tablesContract->getModuleName()) . '/' . $this->getShortBusinessName();
+        return ComUtil::lower($this->tablesContract->getModuleName()) . '/' . $this->getShortBusinessName();
     }
 
     /**
      * 获取Vue模板路径.
      */
-    protected function getVueTemplate(): string
-    {
-        return Str::lower($this->tablesContract->getModuleName()) . '/' . $this->getShortBusinessName() . '/index';
+    protected function getVueTemplate(): string {
+        return ComUtil::lower($this->tablesContract->getModuleName()) . '/views/' . $this->getShortBusinessName() . '/index';
     }
 
     /**

@@ -1,5 +1,5 @@
 {
-  "name": "xmo/mine-generator",
+  "name": "sanxcsoft/mine-generator",
   "description": "MineAdmin Code Generator",
   "license": "Apache-2.0",
   "type": "library",
@@ -11,13 +11,8 @@
   ],
   "authors": [
     {
-      "name": "xmo",
-      "email": "root@imoi.cn",
-      "role": "Developer"
-    },
-    {
-      "name": "zds",
-      "email": "2771717608@qq.com",
+      "name": "sanxc",
+      "email": "1402622214@qq.com",
       "role": "Developer"
     }
   ],

@@ -1,13 +1,7 @@
 
-    /**
-     * 读取数据
-     * @param int $id
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[GetMapping("read/{id}"), Permission("{READ_PERMISSION}")]
-    public function read(int $id): ResponseInterface
-    {
-        return $this->success($this->service->read($id));
+    #[OA\Get(path: '{CONTROLLER_ROUTE}/{id}', summary: '{MENU_NAME}:读取单条数据', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{READ_PERMISSION}")]
+    #[RequestPath('*id/ID/i'), ResponseBody(Model::class)]
+    public function read(int $id) {
+        return $this->success($this->service->getOne($id));
     }

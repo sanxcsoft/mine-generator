@@ -1,11 +1,5 @@
 
-  /**
-   * 读取{BUSINESS_NAME}
-   * @returns
-   */
-  read (id) {
-    return request({
-      url: '{REQUEST_ROUTE}/read/' + id,
-      method: 'get'
-    })
-  },
+    //读取{BUSINESS_NAME}
+    read(id) {
+        return useHttp().get(`{REQUEST_ROUTE}/${id}`)
+    },

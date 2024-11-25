@@ -1,14 +1,7 @@
 
-    /**
-     * 更新
-     * @param int $id
-     * @param {REQUEST} $request
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[PutMapping("update/{id}"), Permission("{UPDATE_PERMISSION}"), OperationLog]
-    public function update(int $id, {REQUEST} $request): ResponseInterface
-    {
+    #[OA\Put(path: '{CONTROLLER_ROUTE}/{id}', summary: '{MENU_NAME}:修改', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{UPDATE_PERMISSION}"), ActionLog]
+    #[RequestPath('*id/ID/i'), RequestBody({UPDATE_RULES}), ResponseBody]
+    public function update(int $id, ParamsRequest $request) {
         return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
     }

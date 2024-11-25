@@ -1,36 +1,21 @@
 
-  /**
-   * 从回收站获取{BUSINESS_NAME}数据列表
-   * @returns
-   */
-  getRecycleList (params = {}) {
-    return request({
-      url: '{REQUEST_ROUTE}/recycle',
-      method: 'get',
-      params
-    })
-  },
+    //从回收站获取{BUSINESS_NAME}数据列表
+    getRecycleList(params = {}) {
+        return useHttp().get(`{REQUEST_ROUTE}/recycle`, {params})
+    },
 
-  /**
-   * 恢复{BUSINESS_NAME}数据
-   * @returns
-   */
-  recoverys (data) {
-    return request({
-      url: '{REQUEST_ROUTE}/recovery',
-      method: 'put',
-      data
-    })
-  },
+    //恢复{BUSINESS_NAME}数据
+    recovery(data) {
+        let idArr = data.ids || [];
+        let id = typeof idArr === 'string' ? idArr : idArr.join(',');
 
-  /**
-   * 真实删除{BUSINESS_NAME}
-   * @returns
-   */
-  realDeletes (data) {
-    return request({
-      url: '{REQUEST_ROUTE}/realDelete',
-      method: 'delete',
-      data
-    })
-  },
+        return useHttp().put(`{REQUEST_ROUTE}/recovery/${id}`)
+    },
+
+    //真实删除{BUSINESS_NAME}
+    realDelete(data) {
+        let idArr = data.ids || [];
+        let id = typeof idArr === 'string' ? idArr : idArr.join(',');
+
+        return useHttp().delete(`{REQUEST_ROUTE}/forceDelete/${id}`)
+    },

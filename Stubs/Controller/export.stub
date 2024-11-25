@@ -1,13 +1,8 @@
 
-    /**
-     * 数据导出
-     * @return ResponseInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[PostMapping("export"), Permission("{EXPORT_PERMISSION}"), OperationLog]
-    public function export(): ResponseInterface
-    {
-        return $this->service->export($this->request->all(), {DTO_CLASS}, '导出数据列表');
+    #[OA\Post(path: '{CONTROLLER_ROUTE}/export', summary: '{MENU_NAME}:导出', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{EXPORT_PERMISSION}"), ActionLog]
+    public function export(ParamsRequest $request){
+        $rules = [];
+
+        return $this->service->export($request->search(), $rules, '导出数据列表');
     }

@@ -13,20 +13,20 @@ declare(strict_types=1);
 namespace {NAMESPACE};
 
 {USE}
-use Mine\Abstracts\AbstractService;
+use {MODEL_CLASS} as Model;
+use Core\Base\BaseService;
+use Core\Library\Framework\CrudTrait;
+use Hyperf\Database\Model\Builder;
 
 /**
  * {COMMENT}
  */
-class {CLASS_NAME} extends AbstractService
-{
-    /**
-     * @var {MAPPER}
-     */
-    public $mapper;
+class {CLASS_NAME} extends BaseService{
 
-    public function __construct({MAPPER} $mapper)
-    {
-        $this->mapper = $mapper;
+    use CrudTrait;
+
+    public function getModel(): Builder {
+        return Model::query();
     }
+
 }

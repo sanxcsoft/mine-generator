@@ -1,12 +1,6 @@
 
-  /**
-   * 更新{BUSINESS_NAME}数据
-   * @returns
-   */
-  update (id, data = {}) {
-    return request({
-      url: '{REQUEST_ROUTE}/update/' + id,
-      method: 'put',
-      data
-    })
-  },
+    //修改{BUSINESS_NAME}
+    update(id, data = {}) {
+        return useHttp().put(`{REQUEST_ROUTE}/${id}`, data)
+    },
+

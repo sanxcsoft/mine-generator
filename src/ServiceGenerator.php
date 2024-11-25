@@ -23,10 +23,10 @@ declare(strict_types=1);
 
 namespace Mine\Generator;
 
+use Core\Exception\ServiceException;
+use Core\Utils\ComUtil;
 use Hyperf\Support\Filesystem\Filesystem;
-use Mine\Exception\NormalStatusException;
 use Mine\Generator\Contracts\GeneratorTablesContract;
-use Mine\Helper\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -55,7 +55,7 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
         $this->tablesContract = $tablesContract;
         $this->filesystem = make(Filesystem::class);
         if (empty($tablesContract->getModuleName()) || empty($tablesContract->menu_name)) {
-            throw new NormalStatusException(t('setting.gen_code_edit'));
+            throw new ServiceException(trans('setting.gen_code_edit'));
         }
         $this->setNamespace($this->tablesContract->getNamespace());
         return $this->placeholderReplace();
@@ -66,7 +66,7 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $module = Str::title($this->tablesContract->getModuleName()[0]) . mb_substr($this->tablesContract->getModuleName(), 1);
+        $module = ComUtil::title($this->tablesContract->getModuleName()[0]) . mb_substr($this->tablesContract->getModuleName(), 1);
         if ($this->tablesContract->getGenerateType()->value === 1) {
             $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Service/";
         } else {
@@ -97,7 +97,7 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
      */
     public function getBusinessName(): string
     {
-        return Str::studly(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
+        return ComUtil::studly(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
     }
 
     /**
@@ -159,6 +159,7 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
             '{MAPPER}',
             '{FIELD_ID}',
             '{FIELD_PID}',
+			'{MODEL_CLASS}', //模型类
         ];
     }
 
@@ -175,6 +176,7 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
             $this->getMapperName(),
             $this->getFieldIdName(),
             $this->getFieldPidName(),
+			$this->getModelPath(),
         ];
     }
 
@@ -203,7 +205,20 @@ class ServiceGenerator extends MineGenerator implements CodeGenerator
 use {$this->getNamespace()}\\Mapper\\{$this->getBusinessName()}Mapper;
 UseNamespace;
     }
-
+	
+	/**
+	 * 获取模型类路径
+	 * @return string
+	 */
+	protected function getModelPath(): string {
+		return sprintf(
+			'Common\Model\%s\%s',
+			$this->tablesContract->getModuleName(),
+			$this->getBusinessName() . 'Model'
+		);
+	}
+	
+	
     /**
      * 获取控制器类名称.
      */

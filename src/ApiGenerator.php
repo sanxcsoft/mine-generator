@@ -24,10 +24,10 @@ declare(strict_types=1);
 
 namespace Mine\Generator;
 
+use Core\Exception\ServiceException;
+use Core\Utils\ComUtil;
 use Hyperf\Support\Filesystem\Filesystem;
-use Mine\Exception\NormalStatusException;
 use Mine\Generator\Contracts\GeneratorTablesContract;
-use Mine\Helper\Str;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -56,7 +56,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
         $this->tablesContract = $generatorTablesContract;
         $this->filesystem = make(Filesystem::class);
         if (empty($generatorTablesContract->getModuleName()) || empty($generatorTablesContract->getMenuName())) {
-            throw new NormalStatusException(t('setting.gen_code_edit'));
+            throw new ServiceException(trans('setting.gen_code_edit'));
         }
         return $this->placeholderReplace();
     }
@@ -66,10 +66,10 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $filename = Str::camel(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTablename()));
-        $module = Str::lower($this->tablesContract->getModuleName());
-        $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/vue/src/api/{$module}", 0755, true, true);
-        $path = BASE_PATH . "/runtime/generate/vue/src/api/{$module}/{$filename}.js";
+        $filename = ComUtil::camel(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTablename()));
+        $module = ComUtil::lower($this->tablesContract->getModuleName());
+        $this->filesystem->makeDirectory(BASE_PATH . "/runtime/generate/vue/src/{$module}/api", 0755, true, true);
+        $path = BASE_PATH . "/runtime/generate/vue/src/{$module}/api/{$filename}.js";
         $this->filesystem->put($path, $this->replace()->getCodeContent());
     }
 
@@ -86,8 +86,8 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
      */
     public function getShortBusinessName(): string
     {
-        return Str::camel(str_replace(
-            Str::lower($this->tablesContract->getModuleName()),
+        return ComUtil::camel(str_replace(
+			ComUtil::lower($this->tablesContract->getModuleName()),
             '',
             str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTablename())
         ));
@@ -201,7 +201,7 @@ class ApiGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getRequestRoute(): string
     {
-        return Str::lower($this->tablesContract->getModuleName()) . '/' . $this->getShortBusinessName();
+        return ComUtil::lower($this->tablesContract->getModuleName()) . '/' . $this->getShortBusinessName();
     }
 
     /**

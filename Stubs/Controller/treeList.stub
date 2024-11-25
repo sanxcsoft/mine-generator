@@ -1,24 +1,18 @@
 
-    /**
-     * 获取列表树
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[GetMapping("index"), Permission("{INDEX_PERMISSION}")]
-    public function index(): ResponseInterface
-    {
-        return $this->success($this->service->getTreeList($this->request->all()));
+    #[OA\Get(path: '{CONTROLLER_ROUTE}', summary: '{MENU_NAME}:列表树', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{INDEX_PERMISSION}")]
+    #[SearchParams({SEARCH_PARAMS})]
+    #[ResponseBody(Model::class)]
+    public function index(ParamsRequest $request) {
+        return $this->success($this->service->getTreeList($request->search()));
     }
 
-    /**
-     * 前端选择树（不需要权限）
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[GetMapping("tree")]
-    public function tree(): ResponseInterface
-    {
-        return $this->success($this->service->getSelectTree());
+    #[OA\Get(path: '{CONTROLLER_ROUTE}/tree', summary: '{MENU_NAME}:选择树', tags: ['{CONTROLLER_TAG}'])]
+    #[SearchParams({SEARCH_PARAMS})]
+    #[ResponseBody(Model::class)]
+    public function tree(ParamsRequest $request) {
+        $result = $this->service->getAll($request->search());
+        $result = ComUtil::arrayToTree($result);
+
+        return $this->success($result);
     }

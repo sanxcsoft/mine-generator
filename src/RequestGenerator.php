@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Mine\Generator;
 
+use Core\Utils\ComUtil;
 use Hyperf\Database\Model\Builder;
 use Hyperf\Support\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
@@ -80,7 +81,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $module = Str::title($this->tablesContract->getModuleName()[0]) . mb_substr($this->tablesContract->getModuleName(), 1);
+        $module = ComUtil::title($this->tablesContract->getModuleName()[0]) . mb_substr($this->tablesContract->getModuleName(), 1);
         if ($this->tablesContract->getGenerateType()->value === 1) {
             $path = BASE_PATH . "/runtime/generate/php/app/{$module}/Request/";
         } else {
@@ -103,7 +104,7 @@ class RequestGenerator extends MineGenerator implements CodeGenerator
      */
     public function getBusinessName(): string
     {
-        return Str::studly(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
+        return ComUtil::studly(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
     }
 
     /**

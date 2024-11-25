@@ -1,12 +1,8 @@
 
-  /**
-   * 将{BUSINESS_NAME}删除，有软删除则移动到回收站
-   * @returns
-   */
-  deletes (data) {
-    return request({
-      url: '{REQUEST_ROUTE}/delete',
-      method: 'delete',
-      data
-    })
-  },
+    //将{BUSINESS_NAME}删除，有软删除则移动到回收站
+    delete(data) {
+        let idArr = data.ids || [];
+        let id = typeof idArr === 'string' ? idArr : idArr.join(',');
+
+        return useHttp().delete(`{REQUEST_ROUTE}/${id}`)
+    },

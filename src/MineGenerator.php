@@ -33,7 +33,7 @@ abstract class MineGenerator
         $this->setStubDir(
             realpath(
                 InstalledVersions::getInstallPath(
-                    'xmo/mine-generator'
+                    'sanxcsoft/mine-generator'
                 )
             ) . DIRECTORY_SEPARATOR . 'Stubs' . DIRECTORY_SEPARATOR
         );

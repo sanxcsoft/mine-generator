@@ -1,12 +1,8 @@
 
-    /**
-     * 回收站列表树
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[GetMapping("recycle"), Permission("{RECYCLE_PERMISSION}")]
-    public function recycle():ResponseInterface
-    {
-        return $this->success($this->service->getTreeListByRecycle($this->request->all()));
+    #[OA\Get(path: '{CONTROLLER_ROUTE}/recycle', summary: '{MENU_NAME}:列表树回收站', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{RECYCLE_PERMISSION}")]
+    #[SearchParams({SEARCH_PARAMS})]
+    #[ResponseBody(Model::class)]
+    public function recycle(ParamsRequest $request) {
+        return $this->success($this->service->getTreeListByRecycle($request->search()));
     }

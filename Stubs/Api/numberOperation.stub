@@ -1,12 +1,5 @@
 
-  /**
-   * 修改{BUSINESS_NAME}数值数据，自增自减
-   * @returns
-   */
-  numberOperation (data = {}) {
-    return request({
-      url: '{REQUEST_ROUTE}/numberOperation',
-      method: 'put',
-      data
-    })
-  },
+    //更改{BUSINESS_NAME}排序
+    changeSort(id, sort) {
+        return useHttp().put(`{REQUEST_ROUTE}/sort/${id}/${sort}`)
+    },

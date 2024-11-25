@@ -24,6 +24,7 @@ declare(strict_types=1);
 
 namespace Mine\Generator;
 
+use Core\Utils\ComUtil;
 use Hyperf\Support\Filesystem\Filesystem;
 use Mine\Exception\NormalStatusException;
 use Mine\Generator\Contracts\GeneratorTablesContract;
@@ -71,7 +72,7 @@ class MapperGenerator extends MineGenerator implements CodeGenerator
      */
     public function generator(): void
     {
-        $module = Str::title(
+        $module = ComUtil::title(
             $this->tablesContract->getModuleName()[0]
         ) .
             mb_substr($this->tablesContract->getModuleName(), 1);
@@ -105,7 +106,7 @@ class MapperGenerator extends MineGenerator implements CodeGenerator
      */
     public function getBusinessName(): string
     {
-        return Str::studly(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
+        return ComUtil::studly(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
     }
 
     /**

@@ -1,25 +1,24 @@
 
-    /**
-     * 数据导入
-     * @return ResponseInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
-    #[PostMapping("import"), Permission("{IMPORT_PERMISSION}")]
-    public function import(): ResponseInterface
-    {
-        return $this->service->import({DTO_CLASS}) ? $this->success() : $this->error();
+    #[OA\Post(path: '{CONTROLLER_ROUTE}/import', summary: '{MENU_NAME}:导入', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{IMPORT_PERMISSION}"), ActionLog]
+    public function import() {
+        $rules = $this->getImportRules();
+
+        return $this->service->import($rules) ? $this->success() : $this->error();
+    }
+
+    #[OA\Get(path: '{CONTROLLER_ROUTE}/import', summary: '{MENU_NAME}:下载导入模板', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{IMPORT_PERMISSION}"), ActionLog]
+    public function downloadImport() {
+        $rules = $this->getImportRules();
+
+        return ComUtil::getImportTemplate($rules, '导入模板下载', []);
     }
 
     /**
-     * 下载导入模板
-     * @return ResponseInterface
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * 获取导入规则
+     * @return array
      */
-    #[PostMapping("downloadTemplate")]
-    public function downloadTemplate(): ResponseInterface
-    {
-        return (new \Mine\MineCollection)->export({DTO_CLASS}, '模板下载', []);
+    protected function getImportRules(): array{
+        return [];
     }
