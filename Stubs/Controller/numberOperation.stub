@@ -5,7 +5,7 @@
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    #[OA\Put(path: '{CONTROLLER_ROUTE}/sort/{id}/{sort}', summary: '{MENU_NAME}:更改排序', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Put(path: '/{CONTROLLER_ROUTE}/sort/{id}/{sort}', summary: '{MENU_NAME}:更改排序', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{UPDATE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID/i'), RequestPath('*sort/排序值/i'), ResponseBody]
     public function numberOperation(int $id, int $sort) {

@@ -1,5 +1,5 @@
 
-    #[OA\Put(path: '{CONTROLLER_ROUTE}/disabled/{id}/{disabled}', summary: '{MENU_NAME}:更改禁用状态', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Put(path: '/{CONTROLLER_ROUTE}/disabled/{id}/{disabled}', summary: '{MENU_NAME}:更改禁用状态', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{UPDATE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID/i'), RequestPath('*disabled/操作类型/i/disabled'), ResponseBody]
     public function changeDisabled(int $id, int $disabled) {

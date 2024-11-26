@@ -1,10 +1,10 @@
 
     //{BUSINESS_NAME}导入
     import(data = {}) {
-        return useHttp().post(`{REQUEST_ROUTE}/import`, data)
+        return useHttp().post(`/{REQUEST_ROUTE}/import`, data)
     },
 
     //{BUSINESS_NAME}下载模板
     downloadImport() {
-        return useHttp().get(`{REQUEST_ROUTE}/import`, {responseType: 'blob'})
+        return useHttp().get(`/{REQUEST_ROUTE}/import`, {responseType: 'blob'})
     },

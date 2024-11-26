@@ -1,7 +1,7 @@
 
-    #[OA\Post(path: '{CONTROLLER_ROUTE}', summary: '{MENU_NAME}:新增', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Post(path: '/{CONTROLLER_ROUTE}', summary: '{MENU_NAME}:新增', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{SAVE_PERMISSION}"), ActionLog]
     #[RequestBody({INSERT_RULES}), ResponseBody]
-    public function insert(ParamsRequest $request): ResponseInterface{
+    public function insert(ParamsRequest $request) {
         return $this->success(['id' => $this->service->save($request->all())]);
     }

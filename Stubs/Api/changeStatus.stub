@@ -1,5 +1,5 @@
 
     //更改{BUSINESS_NAME}禁用状态
     changeDisabled(id, disabled) {
-        return useHttp().put(`{REQUEST_ROUTE}/disabled/${id}/${disabled}`)
+        return useHttp().put(`/{REQUEST_ROUTE}/disabled/${id}/${disabled}`)
     },

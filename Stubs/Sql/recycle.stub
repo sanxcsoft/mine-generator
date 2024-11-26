@@ -1,6 +1,6 @@
 
-INSERT INTO `{TABLE_NAME}`(`parent_id`, `code`, `name`, `type`, `meta`, `created_at`, `updated_at`) VALUES (@id, CONCAT('{CODE}',':recycle'), CONCAT('{NAME}', '回收站'), 'B', '{"type": "B", "title": "回收站"}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+INSERT INTO `{TABLE_NAME}`(`parent_id`, `code`, `name`, `type`, `meta`, `created_at`, `updated_at`) VALUES (@id, CONCAT('{CODE}',':recycle'), '回收站', 'B', '{"type": "B", "title": "回收站"}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
-INSERT INTO `{TABLE_NAME}`(`parent_id`, `code`, `name`, `type`, `meta`, `created_at`, `updated_at`) VALUES (@id, CONCAT('{CODE}',':recovery'), CONCAT('{NAME}', '恢复'), 'B', '{"type": "B", "title": "恢复"}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+INSERT INTO `{TABLE_NAME}`(`parent_id`, `code`, `name`, `type`, `meta`, `created_at`, `updated_at`) VALUES (@id, CONCAT('{CODE}',':recovery'), '恢复', 'B', '{"type": "B", "title": "恢复"}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
-INSERT INTO `{TABLE_NAME}`(`parent_id`, `code`, `name`, `type`, `meta`, `created_at`, `updated_at`) VALUES (@id, CONCAT('{CODE}',':realDelete'), CONCAT('{NAME}', '真实删除'), 'B', '{"type": "B", "title": "真实删除"}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+INSERT INTO `{TABLE_NAME}`(`parent_id`, `code`, `name`, `type`, `meta`, `created_at`, `updated_at`) VALUES (@id, CONCAT('{CODE}',':realDelete'), '真实删除', 'B', '{"type": "B", "title": "真实删除"}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());

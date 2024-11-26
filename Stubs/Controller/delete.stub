@@ -1,5 +1,5 @@
 
-    #[OA\Delete(path: '{CONTROLLER_ROUTE}/{id}', summary: '{MENU_NAME}:删除', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Delete(path: '/{CONTROLLER_ROUTE}/{id}', summary: '{MENU_NAME}:删除', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{DELETE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID'), ResponseBody]
     public function delete(mixed $id) {

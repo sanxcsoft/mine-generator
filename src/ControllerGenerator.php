@@ -174,13 +174,13 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator {
     protected function getPlaceHolderContent(): array
     {
         return [
+			'{FUNCTIONS}', //方法集合
             '{NAMESPACE}', //命名空间
             '{COMMENT}', //类说明
             '{USE}', //引用
             '{CLASS_NAME}', //类名
             '{SERVICE}', //引用业务服务
             '{CONTROLLER_ROUTE}', //controller前置路由
-            '{FUNCTIONS}', //方法集合
             '{REQUEST}', //
             '{INDEX_PERMISSION}', //首页权限
             '{RECYCLE_PERMISSION}', //回收站权限
@@ -214,13 +214,13 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator {
     protected function getReplaceContent(): array
     {
         return [
+			$this->getFunctions(),
             $this->initNamespace(),
             $this->getComment(),
             $this->getUse(),
             $this->getClassName(),
             $this->getServiceName(),
             $this->getControllerRoute(),
-            $this->getFunctions(),
             $this->getRequestName(),
 			ComUtil::lower($this->tablesContract->getModuleName()) . ':' . $this->getShortBusinessName(),
             $this->getMethodRoute('recycle'),

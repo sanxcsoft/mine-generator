@@ -1,2 +1,2 @@
 
-INSERT INTO `{TABLE_NAME}`(`parent_id`, `code`, `name`, `type`, `meta`, `created_at`, `updated_at`) VALUES (@id, CONCAT('{CODE}',':export'), CONCAT('{NAME}', '导出'), 'B', '{"type": "B", "title": "导出"}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+INSERT INTO `{TABLE_NAME}`(`parent_id`, `code`, `name`, `type`, `meta`, `created_at`, `updated_at`) VALUES (@id, CONCAT('{CODE}',':export'), '导出', 'B', '{"type": "B", "title": "导出"}', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());

@@ -1,5 +1,5 @@
 
     //更改{BUSINESS_NAME}排序
     changeSort(id, sort) {
-        return useHttp().put(`{REQUEST_ROUTE}/sort/${id}/${sort}`)
+        return useHttp().put(`/{REQUEST_ROUTE}/sort/${id}/${sort}`)
     },

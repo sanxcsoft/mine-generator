@@ -1,5 +1,5 @@
 
-    #[OA\Get(path: '{CONTROLLER_ROUTE}/recycle', summary: '{MENU_NAME}:列表树回收站', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Get(path: '/{CONTROLLER_ROUTE}/recycle', summary: '{MENU_NAME}:列表树回收站', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{RECYCLE_PERMISSION}")]
     #[SearchParams({SEARCH_PARAMS})]
     #[ResponseBody(Model::class)]

@@ -1,5 +1,5 @@
 
-    #[OA\Get(path: '{CONTROLLER_ROUTE}', summary: '{MENU_NAME}:列表', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Get(path: '/{CONTROLLER_ROUTE}', summary: '{MENU_NAME}:列表', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{INDEX_PERMISSION}")]
     #[SearchParams({SEARCH_PARAMS})]
     #[ResponseBody(Model::class, scene: 'page')]

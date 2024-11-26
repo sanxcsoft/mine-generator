@@ -1,5 +1,5 @@
 
-    #[OA\Delete(path: '{CONTROLLER_ROUTE}/forceDelete/{id}', summary: '{MENU_NAME}:强制删除', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Delete(path: '/{CONTROLLER_ROUTE}/forceDelete/{id}', summary: '{MENU_NAME}:强制删除', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{REAL_DELETE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID'), ResponseBody]
     public function forceDelete(mixed $id) {

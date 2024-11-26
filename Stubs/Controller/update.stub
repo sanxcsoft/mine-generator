@@ -1,5 +1,5 @@
 
-    #[OA\Put(path: '{CONTROLLER_ROUTE}/{id}', summary: '{MENU_NAME}:修改', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Put(path: '/{CONTROLLER_ROUTE}/{id}', summary: '{MENU_NAME}:修改', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{UPDATE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID/i'), RequestBody({UPDATE_RULES}), ResponseBody]
     public function update(int $id, ParamsRequest $request) {

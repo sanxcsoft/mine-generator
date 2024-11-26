@@ -248,7 +248,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
 				'api' => 'api.update',
                 'auth' => "['" . $this->getCode() . ":update']",
 				'dataSource' => '"api"',
-				'dataSourceApi' => $this->getBusinessEnName() . '.read',
+				'dataSourceApi' => 'api.read',
             ];
         }
         if (str_contains($this->tablesContract->getGenerateMenus(), 'delete')) {
@@ -362,13 +362,13 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
 			//排序处理
 			if($column->column_name == 'sort'){
 				$tmp['customRenderType'] = 'sort';
-				$tmp['onChange'] = '$(api.changeSort)';
+				$tmp['onColumnChange'] = '$(api.changeSort)';
 			}
 			
 			//禁用处理
 			if($column->column_name == 'disabled'){
 				$tmp['customRenderType'] = 'disabled';
-				$tmp['onChange'] = '$(api.changeDisabled)';
+				$tmp['onColumnChange'] = '$(api.changeDisabled)';
 			}
 			
             // 允许查看字段的角色（前端还待支持）

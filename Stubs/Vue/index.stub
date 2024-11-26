@@ -1,9 +1,6 @@
 
 <script setup>
-import {BUSINESS_EN_NAME} as api from '@/modules/{MODULE_NAME}/api//{BUSINESS_EN_NAME}'
-import { Message } from '@arco-design/web-vue'
-import tool from '@/utils/tool'
-import * as common from '@/utils/common'
+import api from '~/{MODULE_NAME}/api/{BUSINESS_EN_NAME}.js'
 
 const crudRef = ref()
 

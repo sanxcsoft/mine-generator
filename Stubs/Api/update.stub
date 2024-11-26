@@ -1,6 +1,6 @@
 
     //修改{BUSINESS_NAME}
     update(id, data = {}) {
-        return useHttp().put(`{REQUEST_ROUTE}/${id}`, data)
+        return useHttp().put(`/{REQUEST_ROUTE}/${id}`, data)
     },
 

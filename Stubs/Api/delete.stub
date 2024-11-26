@@ -4,5 +4,5 @@
         let idArr = data.ids || [];
         let id = typeof idArr === 'string' ? idArr : idArr.join(',');
 
-        return useHttp().delete(`{REQUEST_ROUTE}/${id}`)
+        return useHttp().delete(`/{REQUEST_ROUTE}/${id}`)
     },

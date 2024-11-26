@@ -253,7 +253,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     protected function getRoute(): string
     {
-        return ComUtil::lower($this->tablesContract->getModuleName()) . '/' . $this->getShortBusinessName();
+        return '/' . ComUtil::lower($this->tablesContract->getModuleName()) . '/' . $this->getShortBusinessName();
     }
 
     /**

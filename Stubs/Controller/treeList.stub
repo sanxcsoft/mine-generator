@@ -1,5 +1,5 @@
 
-    #[OA\Get(path: '{CONTROLLER_ROUTE}', summary: '{MENU_NAME}:列表树', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Get(path: '/{CONTROLLER_ROUTE}', summary: '{MENU_NAME}:列表树', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{INDEX_PERMISSION}")]
     #[SearchParams({SEARCH_PARAMS})]
     #[ResponseBody(Model::class)]
@@ -7,7 +7,7 @@
         return $this->success($this->service->getTreeList($request->search()));
     }
 
-    #[OA\Get(path: '{CONTROLLER_ROUTE}/tree', summary: '{MENU_NAME}:选择树', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Get(path: '/{CONTROLLER_ROUTE}/tree', summary: '{MENU_NAME}:选择树', tags: ['{CONTROLLER_TAG}'])]
     #[SearchParams({SEARCH_PARAMS})]
     #[ResponseBody(Model::class)]
     public function tree(ParamsRequest $request) {

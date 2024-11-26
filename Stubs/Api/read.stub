@@ -1,5 +1,5 @@
 
     //读取{BUSINESS_NAME}
     read(id) {
-        return useHttp().get(`{REQUEST_ROUTE}/${id}`)
+        return useHttp().get(`/{REQUEST_ROUTE}/${id}`)
     },

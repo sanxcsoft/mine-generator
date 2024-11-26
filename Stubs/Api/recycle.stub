@@ -1,7 +1,7 @@
 
     //从回收站获取{BUSINESS_NAME}数据列表
     getRecycleList(params = {}) {
-        return useHttp().get(`{REQUEST_ROUTE}/recycle`, {params})
+        return useHttp().get(`/{REQUEST_ROUTE}/recycle`, {params})
     },
 
     //恢复{BUSINESS_NAME}数据
@@ -9,7 +9,7 @@
         let idArr = data.ids || [];
         let id = typeof idArr === 'string' ? idArr : idArr.join(',');
 
-        return useHttp().put(`{REQUEST_ROUTE}/recovery/${id}`)
+        return useHttp().put(`/{REQUEST_ROUTE}/recovery/${id}`)
     },
 
     //真实删除{BUSINESS_NAME}
@@ -17,5 +17,5 @@
         let idArr = data.ids || [];
         let id = typeof idArr === 'string' ? idArr : idArr.join(',');
 
-        return useHttp().delete(`{REQUEST_ROUTE}/forceDelete/${id}`)
+        return useHttp().delete(`/{REQUEST_ROUTE}/forceDelete/${id}`)
     },

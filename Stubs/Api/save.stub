@@ -1,6 +1,6 @@
 
     //新增{BUSINESS_NAME}
     insert(data = {}) {
-        return useHttp().post(`{REQUEST_ROUTE}`, data)
+        return useHttp().post(`/{REQUEST_ROUTE}`, data)
     },
 

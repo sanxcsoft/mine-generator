@@ -1,5 +1,5 @@
 
     //{BUSINESS_NAME}导出
     export(data = {}) {
-        return useHttp().post(`{REQUEST_ROUTE}/export`, data, {responseType: 'blob'})
+        return useHttp().post(`/{REQUEST_ROUTE}/export`, data, {responseType: 'blob'})
     },

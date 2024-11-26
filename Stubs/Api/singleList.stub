@@ -1,5 +1,5 @@
 
     //获取{BUSINESS_NAME}分页列表
     getList(params = {}) {
-        return useHttp().get(`{REQUEST_ROUTE}`, {params})
+        return useHttp().get(`/{REQUEST_ROUTE}`, {params})
     },

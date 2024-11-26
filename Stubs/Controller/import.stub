@@ -1,5 +1,5 @@
 
-    #[OA\Post(path: '{CONTROLLER_ROUTE}/import', summary: '{MENU_NAME}:导入', tags: ['{CONTROLLER_TAG}'])]
+    #[OA\Post(path: '/{CONTROLLER_ROUTE}/import', summary: '{MENU_NAME}:导入', tags: ['{CONTROLLER_TAG}'])]
     #[Permission("{IMPORT_PERMISSION}"), ActionLog]
     public function import() {
         $rules = $this->getImportRules();
