@@ -409,7 +409,7 @@ UseNamespace;
 			
 			//验证规则
 			$rules = [];
-			$oldField = $column['column_name'];
+			$oldField = $field = $column['column_name'];
 			if($column['is_required'] == 2)$field = '*' . $oldField; //必填
 			
 			//类型
