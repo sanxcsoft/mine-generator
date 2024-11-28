@@ -90,7 +90,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
      */
     public function getShortBusinessName(): string
     {
-        return ComUtil::camel(str_replace(
+        return ComUtil::camel(ComUtil::strReplaceOnce(
 			ComUtil::lower($this->tablesContract->getModuleName()),
             '',
             str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName())
@@ -297,10 +297,12 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
         // 字段配置项
         $options = [];
         foreach ($this->columns as $column) {
+			$formType = $this->getViewType($column->view_type);
+			
             $tmp = [
                 'title' => $column->column_comment,
                 'dataIndex' => $column->column_name,
-                'formType' => $this->getViewType($column->view_type),
+                'formType' => $formType,
             ];
             // 基础
             if ($column->is_query == self::YES) {
@@ -316,9 +318,11 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 $tmp['hide'] = true;
             }
             if ($column->is_required == self::YES) {
+				$chooseName = in_array($formType, ['radio', 'select', 'checkbox', 'transfer', 'tree-select', 'cascader', 'date', 'range', 'time', 'upload', 'user-select', 'icon-picker', 'city-linkage', 'color-picker', 'resource']) ? '选择' : '输入';
+				
                 $tmp['commonRules'] = [
                     'required' => true,
-                    'message' => '请输入' . $column->column_comment,
+                    'message' => '请' . $chooseName . $column->column_comment,
                 ];
             }
             if ($column->is_sort == self::YES) {

@@ -98,7 +98,7 @@ class SqlGenerator extends MineGenerator implements CodeGenerator
      */
     public function getShortBusinessName(): string
     {
-        return ComUtil::camel(str_replace(
+        return ComUtil::camel(ComUtil::strReplaceOnce(
 			ComUtil::lower($this->tablesContract->getModuleName()),
             '',
             str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->table_name)
