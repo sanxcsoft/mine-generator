@@ -115,11 +115,12 @@ class ControllerGenerator extends MineGenerator implements CodeGenerator {
      * 获取短业务名称.
      */
     public function getShortBusinessName(): string {
-        return ComUtil::camel(ComUtil::strReplaceOnce(
-			ComUtil::lower($this->tablesContract->getModuleName()),
-            '',
-            str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName())
-        ));
+		return ComUtil::camel(str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName()));
+//        return ComUtil::camel(ComUtil::strReplaceOnce(
+//			ComUtil::lower($this->tablesContract->getModuleName()),
+//            '',
+//            str_replace(env('DB_PREFIX', ''), '', $this->tablesContract->getTableName())
+//        ));
     }
 
     /**
