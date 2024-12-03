@@ -259,7 +259,7 @@ class VueIndexGenerator extends MineGenerator implements CodeGenerator
                 'auth' => "['" . $this->getCode() . ":delete']",
             ];
             if (str_contains($this->tablesContract->getGenerateMenus(), 'recycle')) {
-                $options['delete']['realApi'] = $this->getBusinessEnName() . '.realDelete';
+                $options['delete']['realApi'] = 'api.realDelete';
                 $options['delete']['realAuth'] = "['" . $this->getCode() . ":realDelete']";
                 $options['recovery'] = [
                     'show' => true,
