@@ -9,7 +9,7 @@ use Core\Aspect\SearchParams;
 use Core\Aspect\Transaction;
 use Core\Aspect\ActionLog;
 use Core\Base\BaseController;
-use Core\Vo\ParamsRequest;
+use Core\Library\Request\ParamsRequest;
 use Core\Library\Swagger\RequestBody;
 use Core\Library\Swagger\RequestPath;
 use Core\Library\Swagger\RequestParam;
@@ -38,6 +38,6 @@ class {CLASS_NAME} extends BaseController{
     #[Permission("{READ_PERMISSION}"), SearchParams]
     #[ResponseBody(Model::class, 'array')]
     public function remote(ParamsRequest $request) {
-        return $this->success($this->service->getRemoteList($request->all()));
+        return $this->success($this->service->model->getRemote($request->all()));
     }
 }

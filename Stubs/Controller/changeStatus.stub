@@ -3,5 +3,5 @@
     #[Permission("{UPDATE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID/i'), RequestPath('*disabled/操作类型/i/disabled'), ResponseBody]
     public function changeDisabled(int $id, int $disabled) {
-        return $this->service->changeDisabled($id, $disabled) ? $this->success() : $this->error();
+        return $this->service->model->changeDisabled($id, $disabled) ? $this->success() : $this->error();
     }

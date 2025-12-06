@@ -11,7 +11,7 @@
     #[SearchParams({SEARCH_PARAMS})]
     #[ResponseBody(Model::class)]
     public function tree(ParamsRequest $request) {
-        $result = $this->service->getAll($request->search());
+        $result = $this->service->model->getAll($request->search());
         $result = ComUtil::arrayToTree($result);
 
         return $this->success($result);

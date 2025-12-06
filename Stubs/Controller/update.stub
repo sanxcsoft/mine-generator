@@ -3,5 +3,5 @@
     #[Permission("{UPDATE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID/i'), RequestBody({UPDATE_RULES}), ResponseBody]
     public function update(int $id, ParamsRequest $request) {
-        return $this->service->update($id, $request->all()) ? $this->success() : $this->error();
+        return $this->service->model->fastUpdate($id, $request->all()) ? $this->success() : $this->error();
     }

@@ -9,5 +9,5 @@
     #[Permission("{UPDATE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID/i'), RequestPath('*sort/排序值/i'), ResponseBody]
     public function numberOperation(int $id, int $sort) {
-        return $this->service->changeSort($id, $sort) ? $this->success() : $this->error();
+        return $this->service->model->changeSort($id, $sort) ? $this->success() : $this->error();
     }

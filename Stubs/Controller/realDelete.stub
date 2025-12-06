@@ -3,5 +3,5 @@
     #[Permission("{REAL_DELETE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID'), ResponseBody]
     public function forceDelete(mixed $id) {
-        return $this->service->delete($id, true) ? $this->success() : $this->error();
+        return $this->service->model->fastDelete($id, true) ? $this->success() : $this->error();
     }

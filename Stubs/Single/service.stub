@@ -4,18 +4,12 @@ namespace {NAMESPACE};
 
 use {MODEL_CLASS} as Model;
 use Core\Base\BaseService;
-use Core\Library\Framework\CrudTrait;
-use Hyperf\Database\Model\Builder;
 
 /**
  * {COMMENT}
  */
 class {CLASS_NAME} extends BaseService{
 
-    use CrudTrait;
-
-    public function getModel(): Builder {
-        return Model::query();
-    }
+    protected string $modelClass = Model::class;
 
 }

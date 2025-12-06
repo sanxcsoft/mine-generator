@@ -3,5 +3,5 @@
     #[Permission("{RECOVERY_PERMISSION}")]
     #[RequestPath('*id/ID'), ResponseBody]
     public function recovery(mixed $id) {
-        return $this->service->recovery($id) ? $this->success() : $this->error();
+        return $this->service->model->recovery($id) ? $this->success() : $this->error();
     }

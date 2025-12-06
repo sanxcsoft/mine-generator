@@ -4,5 +4,5 @@
     #[SearchParams({SEARCH_PARAMS})]
     #[ResponseBody(Model::class)]
     public function recycle(ParamsRequest $request) {
-        return $this->success($this->service->getTreeListByRecycle($request->search()));
+        return $this->success($this->service->model->getTreeListByRecycle($request->search()));
     }

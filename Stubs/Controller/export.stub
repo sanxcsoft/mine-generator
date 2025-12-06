@@ -4,5 +4,5 @@
     public function export(ParamsRequest $request){
         $rules = [];
 
-        return $this->service->export($request->search(), $rules, '导出数据列表');
+        return $this->service->model->export($request->search(), $rules, '导出数据列表');
     }

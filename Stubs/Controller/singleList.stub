@@ -4,5 +4,5 @@
     #[SearchParams({SEARCH_PARAMS})]
     #[ResponseBody(Model::class, scene: 'page')]
     public function index(ParamsRequest $request) {
-        return $this->success($this->service->getAuto($request->search()));
+        return $this->success($this->service->model->getAuto($request->search()));
     }

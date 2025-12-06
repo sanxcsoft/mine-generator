@@ -3,5 +3,5 @@
     #[Permission("{READ_PERMISSION}")]
     #[RequestPath('*id/ID/i'), ResponseBody(Model::class)]
     public function read(int $id) {
-        return $this->success($this->service->getOne($id));
+        return $this->success($this->service->model->getOne($id));
     }

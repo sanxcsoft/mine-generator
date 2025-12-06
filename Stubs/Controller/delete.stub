@@ -3,5 +3,5 @@
     #[Permission("{DELETE_PERMISSION}"), ActionLog]
     #[RequestPath('*id/ID'), ResponseBody]
     public function delete(mixed $id) {
-        return $this->service->delete($id) ? $this->success() : $this->error();
+        return $this->service->model->fastDelete($id) ? $this->success() : $this->error();
     }
