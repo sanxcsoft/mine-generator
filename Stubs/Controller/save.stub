@@ -3,5 +3,5 @@
     #[Permission("{SAVE_PERMISSION}"), ActionLog]
     #[RequestBody({INSERT_RULES}), ResponseBody]
     public function insert(ParamsRequest $request) {
-        return $this->success(['id' => $this->service->model->fastSave($request->all())['id']]);
+        return $this->success(['id' => $this->service->model->fastSave($request->all())]);
     }
