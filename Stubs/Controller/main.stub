@@ -8,6 +8,8 @@ use Core\Aspect\Permission;
 use Core\Aspect\SearchParams;
 use Core\Aspect\Transaction;
 use Core\Aspect\ActionLog;
+use Core\Aspect\Remote;
+use Core\Utils\ExcelUtil;
 use Core\Base\BaseController;
 use Core\Library\Request\ParamsRequest;
 use Core\Library\Swagger\RequestBody;
@@ -35,7 +37,7 @@ class {CLASS_NAME} extends BaseController{
     {FUNCTIONS}
 
     #[OA\Post(path: '/{CONTROLLER_ROUTE}/remote', summary: '远程万能通用列表接口', tags: ['{CONTROLLER_TAG}'])]
-    #[Permission("{READ_PERMISSION}"), SearchParams]
+    #[Remote("{READ_PERMISSION}"), SearchParams]
     #[ResponseBody(Model::class, 'array')]
     public function remote(ParamsRequest $request) {
         return $this->success($this->service->model->getRemote($request->all()));

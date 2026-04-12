@@ -194,7 +194,7 @@ class DtoGenerator extends MineGenerator implements CodeGenerator
     {
         return sprintf(
             "    %s\n    %s\n\n",
-            '#[ExcelProperty(value: "NAME", index: INDEX)]',
+            '#[ExcelProperty(value: "NAME")]',
             'public string $FIELD;'
         );
     }

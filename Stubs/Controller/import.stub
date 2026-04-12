@@ -1,24 +1,14 @@
 
     #[OA\Post(path: '/{CONTROLLER_ROUTE}/import', summary: '{MENU_NAME}:导入', tags: ['{CONTROLLER_TAG}'])]
-    #[Permission("{IMPORT_PERMISSION}"), ActionLog]
+    #[Permission("{IMPORT_PERMISSION}")]
+	#[ResponseBody]
     public function import() {
-        $rules = $this->getImportRules();
-
-        return $this->service->model->import($rules) ? $this->success() : $this->error();
+        return $this->service->model->import({DTO_CLASS}) ? $this->success() : $this->error();
     }
 
-    #[OA\Get(path: '{CONTROLLER_ROUTE}/import', summary: '{MENU_NAME}:下载导入模板', tags: ['{CONTROLLER_TAG}'])]
-    #[Permission("{IMPORT_PERMISSION}"), ActionLog]
+    #[OA\Get(path: '/{CONTROLLER_ROUTE}/import', summary: '{MENU_NAME}:下载导入模板', tags: ['{CONTROLLER_TAG}'])]
+    #[Permission("{IMPORT_PERMISSION}")]
+	#[ResponseBody]
     public function downloadImport() {
-        $rules = $this->getImportRules();
-
-        return ComUtil::getImportTemplate($rules, '导入模板下载', []);
-    }
-
-    /**
-     * 获取导入规则
-     * @return array
-     */
-    protected function getImportRules(): array{
-        return [];
+        return ExcelUtil::exportDto({DTO_CLASS}, '导入模板下载', scene: 'import');
     }
